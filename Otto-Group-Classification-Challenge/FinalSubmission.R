@@ -63,8 +63,8 @@ param <- list("objective" = "multi:softprob",
               "num_class" = 9,
               "nthread" = 8)
 bst.cv = xgb.cv(param=param, data = train1, label = y, 
-                nfold = 10, nrounds=210)
-bst = xgboost(param=param, data = train1, label = y, nrounds=214)
+                nfold = 10, nrounds=200)
+bst = xgboost(param=param, data = train1, label = y, nrounds=200)
 
 pred = predict(bst,crossval1)
 pred = matrix(pred,9,length(pred)/9)
@@ -91,6 +91,10 @@ train1 <-matrix(as.numeric(train1),nrow(train1),ncol(train1))
 y = train[,94]
 y = gsub('Class_','',y)
 y = as.integer(y)-1 #xgboost take features in [0,numOfClass)
+
+bst.cv = xgb.cv(param=param, data = train1, label = y, 
+                nfold = 10, nrounds=210)
+bst = xgboost(param=param, data = train1, label = y, nrounds=214)
 
 # Predict on test
 predTest = predict(bst,test1)
